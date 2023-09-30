@@ -1,5 +1,4 @@
 import { FunctionComponent, useState } from "react";
-import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
@@ -12,15 +11,18 @@ import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from "@mui/icons-material/Menu";
+import './css/Navbar.css'
 
 interface NavBarProps {
   userName: string;
   onClick: () => void;
 }
 
+
 const NavBar: FunctionComponent<NavBarProps> = ({ userName }) => {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
@@ -31,8 +33,8 @@ const NavBar: FunctionComponent<NavBarProps> = ({ userName }) => {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        gameDB
+      <Typography variant="h6" sx={{ my: 2, fontFamily: "Orbitron", fontWeight: "bold" }}>
+        GameDB
       </Typography>
       <Divider />
       <List>
@@ -49,7 +51,7 @@ const NavBar: FunctionComponent<NavBarProps> = ({ userName }) => {
 
   return (
     <>
-      <AppBar component="nav">
+      <AppBar component="nav" sx={{ backgroundColor : "red" }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -60,16 +62,15 @@ const NavBar: FunctionComponent<NavBarProps> = ({ userName }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block", textAlign: "start"}}}
-          >
-            gameDB
+          {/* Apply retro animation to the Typography component */}
+          <Typography className="content" variant="h5" sx={{ flexGrow: 1, display: { xs: "none", sm: "block", textAlign: "start", fontFamily: "Montserrat", fontWeight: "bold" ,color : "black",lineHeight: "center", height: "100%"}}}>
+            <h2>GameDb</h2>
+            <h2>GameDb</h2>
           </Typography>
+          
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (
-              <Button key={item} sx={{ color: "#fff" }}>
+              <Button key={item} sx={{ color: "black", fontWeight: "bold" }}>
                 {item}
               </Button>
             ))}
@@ -83,7 +84,7 @@ const NavBar: FunctionComponent<NavBarProps> = ({ userName }) => {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: "block", sm: "none" },
