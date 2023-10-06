@@ -1,0 +1,235 @@
+@import "~bootstrap/scss/functions";
+
+$font-primary: "Lato", Arial, sans-serif;
+$primary: #ff1818;
+$black: #000;
+$white: #fff;
+
+// @font-face {
+//   font-family: "Retro";
+//   src: url("../../assets/fonts/Retro\ Gaming.ttf");
+// }
+
+.body {
+  font-family: $font-primary;
+  font-size: 16px;
+  line-height: 1.8;
+  font-weight: normal;
+  color: lighten($black, 50%);
+  position: relative;
+  z-index: 0;
+  padding: 0;
+  &:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    content: "";
+    background: $black;
+    opacity: 0.3;
+    z-index: -1;
+  }
+}
+a {
+  transition: 0.3s all ease;
+  color: $primary;
+  &:hover,
+  &:focus {
+    text-decoration: none !important;
+    outline: none !important;
+    box-shadow: none;
+  }
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5 {
+  line-height: 1.5;
+  font-weight: 400;
+  font-family: $font-primary;
+  color: $black;
+}
+
+.bg-primary {
+  background: $primary !important;
+}
+
+.ftco-no-pt {
+  padding-top: 0;
+}
+.ftco-no-pb {
+  padding-bottom: 0;
+}
+//HEADING SECTION
+.heading-section {
+  font-size: 45px;
+  color: $white;
+  font-family: "Retro";
+}
+.heading-section-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-family: $font-primary;
+  font-weight: 300;
+}
+
+//COVER BG
+.cover-img {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.login-wrap {
+  position: relative;
+  color: rgba(255, 255, 255, 0.9);
+  h3 {
+    font-weight: 300;
+    color: $white;
+  }
+  .social {
+    width: 100%;
+    a {
+      width: 100%;
+      display: block;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: $black;
+      background: $white;
+      &:hover {
+        background: $black;
+        color: $white;
+        border-color: $black;
+      }
+    }
+  }
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.field-icon {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+//FORM CONTROL
+.form-control {
+  background: transparent;
+  border: 1px solid transparent !important;
+  height: 50px;
+  color: rgba(255, 255, 255, 1) !important;
+  background: rgba(255, 255, 255, 0.25) !important;
+  border-radius: 10px !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  transition: 0.1s !important;
+
+  &::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: rgba(255, 255, 255, 0.4) !important;
+  }
+  &::-moz-placeholder {
+    /* Firefox 19+ */
+    color: rgba(255, 255, 255, 0.4) !important;
+  }
+  &:-ms-input-placeholder {
+    /* IE 10+ */
+    color: rgba(255, 255, 255, 0.4) !important;
+  }
+  &:-moz-placeholder {
+    /* Firefox 18- */
+    color: rgba(255, 255, 255, 0.4) !important;
+  }
+  &:hover,
+  &:focus {
+    background: transparent !important;
+    outline: none !important;
+    border-color: rgba(255, 255, 255, 0.8) !important;
+    box-shadow: none !important;
+  }
+}
+textarea.form-control {
+  height: inherit !important;
+}
+
+//BUTTON
+.btn {
+  cursor: pointer;
+  border-radius: "40px";
+  box-shadow: none !important;
+  font-size: 15px;
+  text-transform: uppercase;
+  &:hover,
+  &:active,
+  &:focus {
+    outline: none;
+  }
+  &.btn-primary {
+    background: $primary !important;
+    border: 1px solid $primary !important;
+    color: $white !important;
+    &:hover {
+      border: 1px solid $primary;
+      background: transparent;
+      color: $primary;
+    }
+    &.btn-outline-primary {
+      border: 1px solid $primary;
+      background: transparent;
+      color: $primary;
+      &:hover {
+        border: 1px solid transparent;
+        background: $primary;
+        color: $white;
+      }
+    }
+  }
+}
+
+//CHECKBOX STYLE
+.checkbox-wrap {
+    display: block;
+    position: relative;
+    padding-left: 10px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+.checkbox-primary {
+  color: $primary;
+  input:checked ~ .checkmark:after {
+    color: $primary;
+  }
+}
+
+.auth-card {
+  background-color: rgba(0, 0, 0, 0.717) !important;
+  width: 45%;
+}
+
+@media screen and (max-width: 992px) {
+  .auth-card {
+    width: 100%;
+  }
+}
+
+.card-header {
+  border-bottom: none !important;
+}
