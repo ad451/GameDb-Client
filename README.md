@@ -6,6 +6,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `./node_modules/.bin/prettier --write '**/*.{ts,tsx,js}'`
+Formats the code as per the options mentioned in `.prettierrc`
+
 ### `npm start`
 
 Runs the app in the development mode.\
