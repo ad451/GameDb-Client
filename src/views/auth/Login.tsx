@@ -1,20 +1,18 @@
 import { ChangeEvent, FunctionComponent, useState } from 'react';
+import { Card, FormLabel, Image } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
-import FormGroup from 'react-bootstrap/FormGroup';
 import FormControl from 'react-bootstrap/FormControl';
-import Button from 'react-bootstrap/Button';
-
-import './Auth.scss';
+import FormGroup from 'react-bootstrap/FormGroup';
+import Row from 'react-bootstrap/Row';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 // import bgImg from "../../assets/images/bgcf.webp";
 import googleLoginImg from '../../assets/images/btn_google_signin_dark_normal_web@2x.png';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-
-import { Card, FormLabel, Image } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import './Auth.scss';
 
 const Login: FunctionComponent = () => {
   // indicates the visibility of the password field

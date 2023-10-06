@@ -1,12 +1,14 @@
-import Toolbar from '@mui/material/Toolbar';
 import { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+
+import Toolbar from '@mui/material/Toolbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 import NavBar from './components/Navbar';
-import Login from './views/auth/Login';
 import './index.scss';
-import Signup from './views/auth/Signup';
 import ForgotPassword from './views/auth/ForgotPassword';
+import Login from './views/auth/Login';
+import Signup from './views/auth/Signup';
 
 function App() {
   const [sideToggle, setSideToggle] = useState<boolean>(false);
