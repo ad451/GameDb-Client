@@ -2,7 +2,7 @@ import React, { useEffect, FunctionComponent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./css/HomeScreen.css";
 import { fetchGamesAction } from "../redux/actions/gameActions";
-
+import Game from "./Game";
 const HomeScreen: FunctionComponent = () => {
   const game_state = useSelector((state : any) => state.gamereducer);
   const dispatch = useDispatch();
@@ -17,9 +17,10 @@ const HomeScreen: FunctionComponent = () => {
         dispatch(fetchGamesAction([]));
       }
     };
-
-    fetchGames();
-  }, [dispatch,game_state]);
+    if (game_state.loading) {
+        fetchGames();
+      }
+    }, [dispatch, game_state.loading, game_state.games]);
 
   return (
     <div className="homescreen">
@@ -31,7 +32,19 @@ const HomeScreen: FunctionComponent = () => {
       ) : (
         <div className="homescreen__games">  
           {game_state.games.map((game : any) => (
-            <div key={game.id}>{game.name}</div>
+            <Game
+            key={game._id}
+            gameId={game._id}
+            name={game.name}
+            release={game.released}
+            image={game.background_image}
+            ratings={game.ratings}
+            rating={game.rating}
+            parent={game.parent_platforms}
+            genres={game.genres}
+            metacritic={game.metacritic}
+            playtime={game.playtime}
+          />
           ))}
         </div>
       )}
