@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 
 import './Auth.scss';
-import { handleGoogleLogin } from '../../api/auth';
+import { handleEmailPasswordLogin, handleGoogleLogin } from '../../api/auth';
 
 const Login: FunctionComponent = () => {
   // indicates the visibility of the password field
@@ -22,7 +22,7 @@ const Login: FunctionComponent = () => {
   const [rememberMe, setRememberMe] = useState<boolean>(false);
 
   // user login details
-  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   return (
@@ -54,7 +54,7 @@ const Login: FunctionComponent = () => {
                       type="text"
                       className="form-control"
                       placeholder="Username"
-                      onChange={(e) => setUsername(e.target.value)}
+                      onChange={(e) => setEmail(e.target.value)}
                       required
                     />
                   </FormGroup>
@@ -87,9 +87,9 @@ const Login: FunctionComponent = () => {
                   </FormGroup>
                   <FormGroup className="form-group">
                     <Button
-                      type="submit"
                       variant="primary"
                       className="form-control submit px-3"
+                      onClick={() => handleEmailPasswordLogin(email, password)}
                     >
                       Sign In
                     </Button>
