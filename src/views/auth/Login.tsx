@@ -10,8 +10,9 @@ import Row from 'react-bootstrap/Row';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
-// import bgImg from "../../assets/images/bgcf.webp";
-import googleLoginImg from '../../assets/images/btn_google_signin_dark_normal_web@2x.png';
+import { GoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
+
 import './Auth.scss';
 
 const Login: FunctionComponent = () => {
@@ -25,6 +26,24 @@ const Login: FunctionComponent = () => {
   const [password, setPassword] = useState<string>('');
 
   console.log(username, password);
+
+  const handleGoogleLogin = async (token: string) => {
+    const response = await axios.post(
+      `${process.env.REACT_APP_BACKEND_URL}/api/v1/user/login/google`,
+      {
+        credential: token
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        }
+      }
+    );
+    if(response.status.toString().startsWith('2')) {
+      alert("Success!")
+    } 
+  };
 
   return (
     <Container
@@ -123,15 +142,16 @@ const Login: FunctionComponent = () => {
                 <p className="w-100 text-center">&mdash; or &mdash;</p>
                 {/* Social Login */}
                 <div className="social d-flex text-center d-flex flex-column align-items-center">
-                  <button
-                    className="google-auth"
-                    style={{ backgroundColor: 'transparent', border: 'none' }}
-                  >
-                    <Image
-                      style={{ height: '55px' }}
-                      src={googleLoginImg}
-                    ></Image>
-                  </button>
+                  <GoogleLogin
+                    onSuccess={(credentialResponse) => {
+                      if (credentialResponse['credential'] !== undefined) {
+                        handleGoogleLogin(credentialResponse['credential']);
+                      }
+                    }}
+                    onError={() => {
+                      console.log('Login Failed');
+                    }}
+                  />
                 </div>
               </div>
             </Col>
