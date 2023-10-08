@@ -1,7 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+  .content-drawer h2 {
+    font-family: 'Press Start 2P', cursive;
+
+  }
   .content h2 {
     position: absolute;
     font-size: 1.5em;
+    font-family: 'Press Start 2P', cursive;
   }
   
   

@@ -1,0 +1,200 @@
+.game {
+  width: 350px;
+  background-color: #262626;
+  margin: 1rem auto;
+
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  margin-bottom: 50px;
+}
+
+.game > a > img {
+  padding: 0rem;
+  width: 100%;
+  border-radius: 15px 15px 0px 0px;
+  height: 400px;
+  object-fit: cover;
+  margin-bottom: 30px;
+  background-color: linear-gradient(#e66465, #9198e5);
+}
+
+.game:hover {
+  transform: scale(1.05);
+}
+
+.game__info > a {
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-align: center;
+  color: white;
+}
+
+.game__like {
+  color: #9198e5;
+}
+.info__name {
+  padding: 0rem 1rem 0rem 1rem;
+  margin-bottom: 22px;
+}
+
+.info__release {
+  display: flex;
+  flex-direction: row;
+  gap: 106px;
+
+  border-bottom: 1px solid black;
+  padding: 1rem 0rem 1rem 0rem;
+}
+
+.info__release > p {
+  padding: 0rem 2rem;
+  font-weight: 500;
+  color: #5b5c5b;
+}
+
+.info__release > span {
+  font-weight: 600;
+}
+.info__rating {
+  display: flex;
+  flex-direction: row;
+  gap: 121px;
+  align-items: center;
+
+  border-bottom: 1px solid black;
+  padding: 1rem 0rem 1rem 0rem;
+}
+
+.info__rating > p {
+  padding: 0rem 2rem;
+  font-weight: 500;
+  color: #5b5c5b;
+}
+.info__rating > span {
+  font-weight: 600;
+}
+
+.info__meta {
+  display: flex;
+  flex-direction: row;
+  gap: 95px;
+  align-items: center;
+
+  border-bottom: 1px solid black;
+  padding: 1rem 0rem 1rem 0rem;
+}
+
+.info__meta > p {
+  padding: 0rem 2rem;
+  font-weight: 500;
+  color: #5b5c5b;
+}
+
+.info__meta > span {
+  font-weight: 600;
+  border-radius: 15;
+  padding: 5px 13px;
+}
+
+.above70 {
+  color: #30cf74;
+  border: 2px solid #30cf74;
+}
+.above50 {
+  color: #d9901c;
+  border: 2px solid #d9901c;
+}
+.under50 {
+  color: #d9481c;
+  border: 2px solid #d9481c;
+}
+
+.info__play {
+  display: flex;
+  flex-direction: row;
+  gap: 102px;
+
+  border-bottom: 1px solid black;
+  padding: 1rem 0rem 1rem 0rem;
+}
+
+.info__play > p {
+  padding: 0rem 2rem;
+  font-weight: 500;
+  color: #5b5c5b;
+}
+
+.info__play > span {
+  font-weight: 600;
+}
+.info__genres {
+  display: flex;
+  flex-direction: row;
+  gap: 113px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid black;
+  padding: 1rem 0rem 1rem 0rem;
+}
+
+.info__genres > p {
+  padding: 0rem 2rem;
+  font-weight: 500;
+  color: #5b5c5b;
+}
+
+.info__genres > span {
+  font-weight: 600;
+  display: flex;
+  font-size: 1rem;
+  gap: 12px;
+  flex-direction: column;
+}
+
+.info__platforms {
+  display: flex;
+  flex-direction: row;
+  gap: 93px;
+  margin-bottom: 30px;
+}
+
+.info__platforms > p {
+  padding: 0rem 2rem;
+  font-weight: 500;
+  color: #5b5c5b;
+}
+
+.info__platforms > span {
+  font-weight: 600;
+  display: grid;
+  font-size: 1rem;
+  gap: 12px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 800px) {
+  .game {
+    width: 500px;
+  }
+  .info__release > p {
+    padding: 0rem 5rem;
+  }
+  .info__rating > p {
+    padding: 0rem 5rem;
+  }
+  .info__meta > p {
+    padding: 0rem 5rem;
+  }
+  .info__play > p {
+    padding: 0rem 5rem;
+  }
+  .info__genres > p {
+    padding: 0rem 5rem;
+  }
+  .info__platforms > p {
+    padding: 0rem 5rem;
+  }
+}

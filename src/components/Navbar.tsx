@@ -28,18 +28,15 @@ const NavBar: FunctionComponent<NavBarProps> = ({ userName }) => {
     setMobileOpen((prevState) => !prevState);
   };
 
-  const navItems = ['Home', 'About', 'Contact'];
+  const navItems = ["Home", "Lists", "Login"];
   const drawerWidth = 240;
   const container =
     window !== undefined ? () => window.document.body : undefined;
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography
-        variant="h6"
-        sx={{ my: 2, fontFamily: 'Orbitron', fontWeight: 'bold' }}
-      >
-        GameDB
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
+      <Typography variant="h6"  className="content-drawer" sx={{ my: 2, fontWeight: "bold" }}>
+        <h2>gameDB</h2>
       </Typography>
       <Divider />
       <List>
@@ -56,7 +53,7 @@ const NavBar: FunctionComponent<NavBarProps> = ({ userName }) => {
 
   return (
     <>
-      <AppBar component="nav" sx={{ backgroundColor: 'red' }}>
+      <AppBar component="nav" sx={{ backgroundColor : "#FF1818" }}>
         <Toolbar>
           <IconButton
             color="inherit"
