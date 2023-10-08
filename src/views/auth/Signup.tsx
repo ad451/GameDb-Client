@@ -9,6 +9,7 @@ import FormGroup from 'react-bootstrap/FormGroup';
 import Row from 'react-bootstrap/Row';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import { handleEmailPasswordSignup } from '../../api/auth';
 
 import bgImg from '../../assets/images/bgcf.webp';
 import './Auth.scss';
@@ -18,10 +19,9 @@ const Signup: FunctionComponent = () => {
   const [togglePassword, settogglePassword] = useState<boolean>(false);
 
   // user signup details
-  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [name, setName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-
-  console.log(username, password);
 
   return (
     <Container
@@ -46,13 +46,23 @@ const Signup: FunctionComponent = () => {
               <div className="login-wrap p-0">
                 <h3 className="mb-4 text-center">Create an account.</h3>
                 <Form className="signin-form mx-5">
+                  {/* Name field */}
+                  <FormGroup className="form-group">
+                    <Form.Control
+                      type="text"
+                      className="form-control"
+                      placeholder="Name"
+                      onChange={(e) => setName(e.target.value)}
+                      required
+                    />
+                  </FormGroup>
                   {/* Email field */}
                   <FormGroup className="form-group">
                     <Form.Control
                       type="text"
                       className="form-control"
                       placeholder="Email"
-                      onChange={(e) => setUsername(e.target.value)}
+                      onChange={(e) => setEmail(e.target.value)}
                       required
                     />
                   </FormGroup>
@@ -111,9 +121,9 @@ const Signup: FunctionComponent = () => {
                   </FormGroup>
                   <FormGroup className="form-group">
                     <Button
-                      type="submit"
                       variant="primary"
                       className="form-control submit px-3"
+                      onClick={() => handleEmailPasswordSignup(name, email, password)}
                     >
                       Sign Up
                     </Button>
