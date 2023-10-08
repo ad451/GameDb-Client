@@ -1,4 +1,4 @@
-import { ChangeEvent, FunctionComponent, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 import { Card, FormLabel, Image } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -11,9 +11,9 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
 import { GoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
 
 import './Auth.scss';
+import { handleGoogleLogin } from '../../api/auth';
 
 const Login: FunctionComponent = () => {
   // indicates the visibility of the password field
@@ -24,26 +24,6 @@ const Login: FunctionComponent = () => {
   // user login details
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-
-  console.log(username, password);
-
-  const handleGoogleLogin = async (token: string) => {
-    const response = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/api/v1/user/login/google`,
-      {
-        credential: token
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        }
-      }
-    );
-    if(response.status.toString().startsWith('2')) {
-      alert("Success!")
-    } 
-  };
 
   return (
     <Container
