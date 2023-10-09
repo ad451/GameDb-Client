@@ -1,4 +1,6 @@
 import { FunctionComponent, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
@@ -14,6 +16,8 @@ import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
+import { UserState } from '../redux/reducer/userReducer';
+import { AppState } from '../redux/store';
 import './css/Navbar.css';
 
 interface NavBarProps {
@@ -21,21 +25,28 @@ interface NavBarProps {
   onClick: () => void;
 }
 
-const NavBar: FunctionComponent<NavBarProps> = ({ userName }) => {
+const NavBar: FunctionComponent<NavBarProps> = () => {
+  const userState = useSelector((state: AppState) => state.userState);
+  const navigate = useNavigate();
+
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
-  const navItems = ["Home", "Lists", "Login"];
+  const navItems = ['home', 'lists'];
   const drawerWidth = 240;
   const container =
     window !== undefined ? () => window.document.body : undefined;
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6"  className="content-drawer" sx={{ my: 2, fontWeight: "bold" }}>
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+      <Typography
+        variant="h6"
+        className="content-drawer"
+        sx={{ my: 2, fontWeight: 'bold' }}
+      >
         <h2>gameDB</h2>
       </Typography>
       <Divider />
@@ -47,13 +58,26 @@ const NavBar: FunctionComponent<NavBarProps> = ({ userName }) => {
             </ListItemButton>
           </ListItem>
         ))}
+        {userState.isLoggedIn ? (
+          <ListItem key={'profile'} disablePadding>
+            <ListItemButton sx={{ textAlign: 'center' }}>
+              <ListItemText primary={userState.user.name.split(' ')[0]} />
+            </ListItemButton>
+          </ListItem>
+        ) : (
+          <ListItem key={'login'} disablePadding>
+            <ListItemButton sx={{ textAlign: 'center' }}>
+              <ListItemText primary={'Login'} />
+            </ListItemButton>
+          </ListItem>
+        )}
       </List>
     </Box>
   );
 
   return (
     <>
-      <AppBar component="nav" sx={{ backgroundColor : "#FF1818" }}>
+      <AppBar component="nav" sx={{ backgroundColor: '#FF1818' }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -88,10 +112,30 @@ const NavBar: FunctionComponent<NavBarProps> = ({ userName }) => {
 
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (
-              <Button key={item} sx={{ color: 'black', fontWeight: 'bold' }}>
+              <Button
+                key={item}
+                sx={{ color: 'white', fontWeight: 'bold' }}
+                onClick={() => navigate(`/${item}`)}
+              >
                 {item}
               </Button>
             ))}
+            {userState.isLoggedIn ? (
+              <Button
+                key={'profile'}
+                sx={{ color: 'white', fontWeight: 'bold' }}
+              >
+                {userState.user.name.split(' ')[0]}
+              </Button>
+            ) : (
+              <Button
+                key={'login'}
+                sx={{ color: 'white', fontWeight: 'bold' }}
+                onClick={() => navigate(`/login`)}
+              >
+                Login
+              </Button>
+            )}
           </Box>
         </Toolbar>
       </AppBar>
