@@ -20,7 +20,7 @@ interface ParentPlatform {
   _id: string;
 }
 
-interface GameProps {
+interface GameCardProps {
   gameId: string;
   name: string;
   release: string;
@@ -33,7 +33,7 @@ interface GameProps {
   genres: any;
 }
 
-const Game: FunctionComponent<GameProps> = ({
+const GameCard: FunctionComponent<GameCardProps> = ({
   gameId,
   name,
   release,
@@ -126,4 +126,4 @@ const Game: FunctionComponent<GameProps> = ({
   );
 };
 
-export default Game;
+export default GameCard;

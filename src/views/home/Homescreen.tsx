@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchGamesAction } from '../../redux/actions/gameActions';
 import { AppState } from '../../redux/store';
-import Game from './Game';
+import GameCard from './GameCard';
 import './HomeScreen.scss';
 
 const HomeScreen: FunctionComponent = () => {
@@ -35,7 +35,7 @@ const HomeScreen: FunctionComponent = () => {
       ) : (
         <div className="homescreen__games">
           {game_state.games.map((game: any) => (
-            <Game
+            <GameCard
               key={game._id}
               gameId={game._id}
               name={game.name}
