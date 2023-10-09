@@ -12,8 +12,8 @@ import Toolbar from '@mui/material/Toolbar';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import HomeScreen from './components/Homescreen';
-import NavBar from './components/Navbar';
+import HomeScreen from './views/home/Homescreen';
+import NavBar from './components/Navbar/Navbar';
 import './index.scss';
 import ForgotPassword from './views/auth/ForgotPassword';
 import Login from './views/auth/Login';

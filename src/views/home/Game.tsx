@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { Link } from "react-router-dom";
-import './css/game.css'
+import './game.scss'
 import { FaPlaystation,FaDesktop, FaApple , FaLinux ,FaXbox ,FaAppStoreIos, FaAndroid } from 'react-icons/fa';
 interface ParentPlatform {
     platform: {
