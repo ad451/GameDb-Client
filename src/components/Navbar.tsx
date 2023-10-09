@@ -1,6 +1,7 @@
 import { FunctionComponent, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
@@ -13,10 +14,13 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
-import { UserState } from '../redux/reducer/userReducer';
+import { setUserAction } from '../redux/actions/userActions';
+import { loggedOutUserState } from '../redux/reducer/userReducer';
 import { AppState } from '../redux/store';
 import './css/Navbar.css';
 
@@ -28,6 +32,7 @@ interface NavBarProps {
 const NavBar: FunctionComponent<NavBarProps> = () => {
   const userState = useSelector((state: AppState) => state.userState);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
 
@@ -35,7 +40,25 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
-  const navItems = ['home', 'lists'];
+  const handleLogout = () => {
+    dispatch(setUserAction(loggedOutUserState));
+    window.localStorage.removeItem('accessToken');
+    toast('Logged out successfully!');
+    handleCloseUserSettings();
+  };
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [openUserSettings, setOpenUserSettings] = useState<boolean>(false);
+  const handleUserSettings = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+    setOpenUserSettings(true);
+  };
+  const handleCloseUserSettings = () => {
+    setOpenUserSettings(false);
+    setAnchorEl(null);
+  };
+
+  const navItems = ['Home', 'Lists'];
   const drawerWidth = 240;
   const container =
     window !== undefined ? () => window.document.body : undefined;
@@ -53,20 +76,29 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
       <List>
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
+            <ListItemButton
+              sx={{ textAlign: 'center' }}
+              onClick={() => navigate(`/${item.toLowerCase()}`)}
+            >
               <ListItemText primary={item} />
             </ListItemButton>
           </ListItem>
         ))}
         {userState.isLoggedIn ? (
           <ListItem key={'profile'} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
+            <ListItemButton
+              sx={{ textAlign: 'center' }}
+              onClick={() => handleLogout()}
+            >
               <ListItemText primary={userState.user.name.split(' ')[0]} />
             </ListItemButton>
           </ListItem>
         ) : (
           <ListItem key={'login'} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
+            <ListItemButton
+              sx={{ textAlign: 'center' }}
+              onClick={() => navigate('/login')}
+            >
               <ListItemText primary={'Login'} />
             </ListItemButton>
           </ListItem>
@@ -115,7 +147,7 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
               <Button
                 key={item}
                 sx={{ color: 'white', fontWeight: 'bold' }}
-                onClick={() => navigate(`/${item}`)}
+                onClick={() => navigate(`/${item.toLowerCase()}`)}
               >
                 {item}
               </Button>
@@ -124,6 +156,7 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
               <Button
                 key={'profile'}
                 sx={{ color: 'white', fontWeight: 'bold' }}
+                onClick={handleUserSettings}
               >
                 {userState.user.name.split(' ')[0]}
               </Button>
@@ -158,6 +191,19 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
         >
           {drawer}
         </Drawer>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={openUserSettings}
+          onClose={handleCloseUserSettings}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button'
+          }}
+        >
+          <MenuItem onClick={handleCloseUserSettings}>Profile</MenuItem>
+          <MenuItem onClick={handleCloseUserSettings}>My account</MenuItem>
+          <MenuItem onClick={() => handleLogout()}>Logout</MenuItem>
+        </Menu>
       </nav>
     </>
   );

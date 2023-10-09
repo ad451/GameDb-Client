@@ -9,23 +9,23 @@ export interface UserState {
 
 export interface IUserAction {
   type: string,
-  payload: User
+  payload: UserState
 }
 
-const userState: UserState = {
+export const loggedOutUserState: UserState = {
   user: {name: "", email: "", userName: ""},
   isLoggedIn: false,
   error: null
 };
 
-export const userReducer = (state: UserState = userState, action: IUserAction) => {
+export const userReducer = (state: UserState = loggedOutUserState, action: IUserAction) => {
   switch (action.type) {
     case SET_USER:
       return {
         ...state,
-        user: action.payload,
-        isLoggedIn: true,
-        error: null
+        user: action.payload.user,
+        isLoggedIn: action.payload.isLoggedIn,
+        error: action.payload.error
       };
     default:
       return state;

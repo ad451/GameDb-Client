@@ -5,7 +5,6 @@ import axios from 'axios';
 import { setUserAction } from '../redux/actions/userActions';
 import { AppDispatch } from '../redux/store';
 
-
 /**
  * A helper function that dispatches the `SET_USER` action which
  * updates the user state of the redux store after the user is logged in
@@ -22,9 +21,13 @@ const setUserState = (
 ) => {
   dispatch(
     setUserAction({
-      name,
-      email,
-      userName
+      user: {
+        name,
+        email,
+        userName
+      },
+      isLoggedIn: true,
+      error: null
     })
   );
 };
@@ -70,7 +73,7 @@ export const handleGoogleLogin = async (
 };
 
 /**
- * Handles the API call for logging in users via email and password; updates the redux store 
+ * Handles the API call for logging in users via email and password; updates the redux store
  * if a user is logged in sucessfully.
  * @param email of the user
  * @param password of the user
@@ -115,7 +118,7 @@ export const handleEmailPasswordLogin = async (
 };
 
 /**
- * Handles the API call for signing up users via email and password; updates the redux store 
+ * Handles the API call for signing up users via email and password; updates the redux store
  * if a user is signed up sucessfully.
  * @param name of the user
  * @param email of the user
