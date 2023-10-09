@@ -2,9 +2,9 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchGamesAction } from '../../redux/actions/gameActions';
+import { AppState } from '../../redux/store';
 import Game from './Game';
 import './HomeScreen.scss';
-import { AppState } from '../../redux/store';
 
 const HomeScreen: FunctionComponent = () => {
   const game_state = useSelector((state: AppState) => state.gamesState);

@@ -12,6 +12,6 @@ const rootReducer = combineReducers({
 const store = configureStore({ reducer: rootReducer, middleware: [thunk] });
 
 export type AppDispatch = typeof store.dispatch;
-export type AppState = ReturnType<typeof store.getState>
+export type AppState = ReturnType<typeof store.getState>;
 
 export default store;
