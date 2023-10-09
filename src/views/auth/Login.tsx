@@ -8,12 +8,14 @@ import FormControl from 'react-bootstrap/FormControl';
 import FormGroup from 'react-bootstrap/FormGroup';
 import Row from 'react-bootstrap/Row';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { GoogleLogin } from '@react-oauth/google';
 
-import './Auth.scss';
 import { handleEmailPasswordLogin, handleGoogleLogin } from '../../api/auth';
+import './Auth.scss';
 
 const Login: FunctionComponent = () => {
   // indicates the visibility of the password field
@@ -24,6 +26,9 @@ const Login: FunctionComponent = () => {
   // user login details
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   return (
     <Container
@@ -89,7 +94,16 @@ const Login: FunctionComponent = () => {
                     <Button
                       variant="primary"
                       className="form-control submit px-3"
-                      onClick={() => handleEmailPasswordLogin(email, password)}
+                      onClick={async () => {
+                        const success: boolean = await handleEmailPasswordLogin(
+                          email,
+                          password,
+                          dispatch
+                        );
+                        if (success) {
+                          return navigate('/home');
+                        }
+                      }}
                     >
                       Sign In
                     </Button>
@@ -123,9 +137,14 @@ const Login: FunctionComponent = () => {
                 {/* Social Login */}
                 <div className="social d-flex text-center d-flex flex-column align-items-center">
                   <GoogleLogin
-                    onSuccess={(credentialResponse) => {
+                    onSuccess={async (credentialResponse) => {
                       if (credentialResponse['credential'] !== undefined) {
-                        handleGoogleLogin(credentialResponse['credential']);
+                        const success: boolean = await handleGoogleLogin(
+                          credentialResponse['credential'],
+                          dispatch
+                        );
+                        console.log(success);
+                        if (success) return navigate('/home');
                       }
                     }}
                     onError={() => {

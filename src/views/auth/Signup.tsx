@@ -8,13 +8,15 @@ import FormControl from 'react-bootstrap/FormControl';
 import FormGroup from 'react-bootstrap/FormGroup';
 import Row from 'react-bootstrap/Row';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
-import { handleEmailPasswordSignup } from '../../api/auth';
+import { useDispatch } from 'react-redux';
+import { Link, redirect } from 'react-router-dom';
 
+import { handleEmailPasswordSignup } from '../../api/auth';
 import bgImg from '../../assets/images/bgcf.webp';
 import './Auth.scss';
 
 const Signup: FunctionComponent = () => {
+  const dispatch = useDispatch();
   // indicates the visibility of the password field
   const [togglePassword, settogglePassword] = useState<boolean>(false);
 
@@ -123,7 +125,16 @@ const Signup: FunctionComponent = () => {
                     <Button
                       variant="primary"
                       className="form-control submit px-3"
-                      onClick={() => handleEmailPasswordSignup(name, email, password)}
+                      onClick={async () => {
+                        const success: boolean =
+                          await handleEmailPasswordSignup(
+                            name,
+                            email,
+                            password,
+                            dispatch
+                          );
+                        if (success) redirect('/home');
+                      }}
                     >
                       Sign Up
                     </Button>
