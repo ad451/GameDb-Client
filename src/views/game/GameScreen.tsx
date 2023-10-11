@@ -7,6 +7,8 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { Chip, Grid, Rating, Typography } from '@mui/material';
 
 import { AppState } from '../../redux/store';
+import ReviewContainer from './review/ReviewContainer';
+import "./GameScreen.scss"
 
 interface GameScreenProps {}
 
@@ -19,15 +21,16 @@ const GameScreen: FunctionComponent<GameScreenProps> = () => {
   console.log(game.rating);
   return (
     <div
-      style={{
-        backgroundImage: `url("${game.background_image}")`,
-        backgroundSize: 'stretch',
-        width: '100%'
-      }}
+      // style={{
+      //   backgroundImage: `url("${game.background_image}")`,
+      //   backgroundSize: 'stretch',
+      //   width: '100%'
+      // }}
+      className="p-4"
     >
       <Container
         fluid
-        className="bg-dark p-5 my-2"
+        className="bg-dark p-5 mb-2"
         style={{ borderRadius: '10px' }}
       >
         <Grid container>
@@ -66,6 +69,7 @@ const GameScreen: FunctionComponent<GameScreenProps> = () => {
           </Grid>
         </Grid>
       </Container>
+      <ReviewContainer />
     </div>
   );
 };
