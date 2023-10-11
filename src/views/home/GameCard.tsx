@@ -10,15 +10,8 @@ import {
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
+import { IParentPlatform } from '../../models/game';
 import './game.scss';
-
-interface ParentPlatform {
-  platform: {
-    id: number;
-    name: string;
-  };
-  _id: string;
-}
 
 interface GameCardProps {
   gameId: string;
@@ -29,7 +22,7 @@ interface GameCardProps {
   metacritic: number;
   playtime: number;
   ratings: number;
-  parent: Array<ParentPlatform>;
+  parent: Array<IParentPlatform>;
   genres: any;
 }
 
@@ -116,7 +109,7 @@ const GameCard: FunctionComponent<GameCardProps> = ({
         <div className="info__platforms">
           <p>Platforms: </p>
           <span>
-            {parent.map((platforms: ParentPlatform) => (
+            {parent.map((platforms: IParentPlatform) => (
               <>{getPlatformIconClass(platforms.platform.name)}</>
             ))}
           </span>

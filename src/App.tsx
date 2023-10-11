@@ -18,6 +18,7 @@ import ForgotPassword from './views/auth/ForgotPassword';
 import Login from './views/auth/Login';
 import Signup from './views/auth/Signup';
 import HomeScreen from './views/home/Homescreen';
+import GameScreen from './views/game/GameScreen';
 
 function App() {
   const [sideToggle, setSideToggle] = useState<boolean>(false);
@@ -38,7 +39,7 @@ function App() {
               <Route path="/forgot-password" element={<ForgotPassword />} />
               {/* <Route path="/profile" element={<ProfileScreen />} /> */}
               {/* <Route path="/favourites" element={<FavouritesScreen />} /> */}
-              {/* <Route path="/game/:id" element={<GameScreen />} /> */}
+              <Route path="/game/:gameId" element={<GameScreen />} />
             </Routes>
           </div>
         </Router>
