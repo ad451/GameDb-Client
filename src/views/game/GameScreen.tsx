@@ -1,14 +1,17 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import { Container, Image } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { Chip, Grid, Rating, Typography } from '@mui/material';
 
+import { fetchReviewsByGameId } from '../../api/review';
+import NotFound from '../../components/NotFound/NotFound';
+import { fetchReviewAction } from '../../redux/actions/reviewActions';
 import { AppState } from '../../redux/store';
+import './GameScreen.scss';
 import ReviewContainer from './review/ReviewContainer';
-import "./GameScreen.scss"
 
 interface GameScreenProps {}
 
@@ -18,14 +21,28 @@ const GameScreen: FunctionComponent<GameScreenProps> = () => {
     (state: AppState) =>
       state.gamesState.games.filter((el) => el._id == gameId)[0]
   );
-  console.log(game.rating);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      if (game !== undefined) {
+        const success = await fetchReviewsByGameId(game._id, dispatch);
+      }
+      return () =>
+        dispatch(
+          fetchReviewAction({ reviews: [], loading: true, error: null })
+        );
+    })();
+  }, []);
+
+  if (game === undefined || gameId === undefined) return <NotFound />;
   return (
     <div
-      // style={{
+      style={{
       //   backgroundImage: `url("${game.background_image}")`,
       //   backgroundSize: 'stretch',
-      //   width: '100%'
-      // }}
+        width: '100%'
+      }}
       className="p-4"
     >
       <Container
@@ -69,7 +86,7 @@ const GameScreen: FunctionComponent<GameScreenProps> = () => {
           </Grid>
         </Grid>
       </Container>
-      <ReviewContainer />
+      <ReviewContainer contentId={game._id}/>
     </div>
   );
 };
