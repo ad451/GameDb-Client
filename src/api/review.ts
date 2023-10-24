@@ -24,7 +24,11 @@ export const fetchReviewsByGameId = async (
     if (response.status.toString().startsWith('2')) {
       const reviews = response.data['reviews'];
       dispatch(
-        fetchReviewAction({ reviews: reviews as IReview[], loading: false, error: null })
+        fetchReviewAction({
+          reviews: reviews as IReview[],
+          loading: false,
+          error: null
+        })
       );
     }
     return true;
@@ -61,12 +65,17 @@ export const postReview = async (
       }
     );
     if (response.status.toString().startsWith('2')) {
-      toast("Success!")
+      toast('Success!');
       return response.data as IReview;
     }
     return null;
   } catch (e) {
     if (axios.isAxiosError(e)) {
+      console.log(e)
+      if (e.response?.status == 401) {
+        toast('You need to be signed in for posting reviews');
+        return null;
+      }
       toast('Could not post review for the moment. Please try again later');
     } else {
       console.error(e);

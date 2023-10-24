@@ -6,9 +6,11 @@ import { toast } from 'react-toastify';
 import Masonry from '@mui/lab/Masonry';
 import { useMediaQuery } from '@mui/material';
 import Divider from '@mui/material/Divider';
+import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 
 import { postReview } from '../../../api/review';
+import { IReview } from '../../../models/review';
 import { fetchReviewAction } from '../../../redux/actions/reviewActions';
 import { AppState } from '../../../redux/store';
 import { durationUtil } from '../../../utils/durationUtil';
@@ -30,6 +32,8 @@ const ReviewContainer: FunctionComponent<ReviewContainerProps> = ({
   const isXl = useMediaQuery('(max-width:1400px)');
   const [title, setTitle] = useState<string>('');
   const [body, setBody] = useState<string>('');
+  const [openFullReview, setOpenFullReview] = useState<boolean>(false);
+  const [selectedReview, setSelectedReview] = useState<IReview | null>(null);
 
   const noOfCols = isMd ? 1 : isLg ? 2 : isXl ? 3 : 4;
   return (
@@ -92,19 +96,41 @@ const ReviewContainer: FunctionComponent<ReviewContainerProps> = ({
           <Masonry columns={noOfCols} spacing={2}>
             {reviewState.reviews.map((review) => (
               <Review
+                onClick={() => setSelectedReview(review)}
                 title={review.title}
                 description={review.body}
                 upvoteCount={review.upvotes.length}
                 downvoteCount={review.downvotes.length}
                 createdAt={durationUtil(review.createdAt)}
+                trimReviewWordCount={100}
                 userName={review.createdBy.name}
-              ></Review>
+                setOpenFullReview={setOpenFullReview}
+              />
             ))}
           </Masonry>
         ) : (
           <>Wow! No reviews yet!</>
         )}
       </div>
+      {selectedReview !== null && (
+        <Modal
+          open={openFullReview}
+          onClose={() => setOpenFullReview(false)}
+          style={{ width: '100vw' }}
+          className="d-flex justify-content-center align-items-center"
+        >
+          <div style={{width: "60vw"}}>
+            <Review
+              title={selectedReview.title}
+              description={selectedReview.body}
+              upvoteCount={selectedReview.upvotes.length}
+              downvoteCount={selectedReview.downvotes.length}
+              createdAt={durationUtil(selectedReview.createdAt)}
+              userName={selectedReview.createdBy.name}
+            />
+          </div>
+        </Modal>
+      )}
     </Container>
   );
 };
