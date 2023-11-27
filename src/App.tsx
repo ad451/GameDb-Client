@@ -12,12 +12,13 @@ import Toolbar from '@mui/material/Toolbar';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import HomeScreen from './components/Homescreen';
-import NavBar from './components/Navbar';
+import NavBar from './components/Navbar/Navbar';
 import './index.scss';
 import ForgotPassword from './views/auth/ForgotPassword';
 import Login from './views/auth/Login';
 import Signup from './views/auth/Signup';
+import HomeScreen from './views/home/Homescreen';
+import GameScreen from './views/game/GameScreen';
 
 function App() {
   const [sideToggle, setSideToggle] = useState<boolean>(false);
@@ -38,7 +39,7 @@ function App() {
               <Route path="/forgot-password" element={<ForgotPassword />} />
               {/* <Route path="/profile" element={<ProfileScreen />} /> */}
               {/* <Route path="/favourites" element={<FavouritesScreen />} /> */}
-              {/* <Route path="/game/:id" element={<GameScreen />} /> */}
+              <Route path="/game/:gameId" element={<GameScreen />} />
             </Routes>
           </div>
         </Router>

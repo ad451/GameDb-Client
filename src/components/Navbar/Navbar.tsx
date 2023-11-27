@@ -19,10 +19,10 @@ import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
-import { setUserAction } from '../redux/actions/userActions';
-import { loggedOutUserState } from '../redux/reducer/userReducer';
-import { AppState } from '../redux/store';
-import './css/Navbar.css';
+import { setUserAction } from '../../redux/actions/userActions';
+import { loggedOutUserState } from '../../redux/reducer/userReducer';
+import { AppState } from '../../redux/store';
+import './Navbar.scss';
 
 interface NavBarProps {
   userName: string;

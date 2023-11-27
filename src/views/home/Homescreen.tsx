@@ -1,10 +1,13 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchGamesAction } from '../redux/actions/gameActions';
-import Game from './Game';
-import './css/HomeScreen.css';
-import { AppState } from '../redux/store';
+import axios from 'axios';
+
+import { fetchGamesAction } from '../../redux/actions/gameActions';
+import { noGameState } from '../../redux/reducer/gameReducer';
+import { AppState } from '../../redux/store';
+import GameCard from './GameCard';
+import './HomeScreen.scss';
 
 const HomeScreen: FunctionComponent = () => {
   const game_state = useSelector((state: AppState) => state.gamesState);
@@ -12,12 +15,14 @@ const HomeScreen: FunctionComponent = () => {
   useEffect(() => {
     const fetchGames = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/v1/game');
-        const data = await response.json();
-        dispatch(fetchGamesAction(data.games));
+        const response = await axios.get('http://localhost:5000/api/v1/game');
+        const data = response.data;
+        dispatch(
+          fetchGamesAction({ games: data.games, error: null, loading: false })
+        );
       } catch (error) {
         console.error('Error fetching games:', error);
-        dispatch(fetchGamesAction([]));
+        dispatch(fetchGamesAction(noGameState));
       }
     };
     if (game_state.loading) {
@@ -35,7 +40,7 @@ const HomeScreen: FunctionComponent = () => {
       ) : (
         <div className="homescreen__games">
           {game_state.games.map((game: any) => (
-            <Game
+            <GameCard
               key={game._id}
               gameId={game._id}
               name={game.name}

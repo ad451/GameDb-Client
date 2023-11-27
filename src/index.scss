@@ -4,10 +4,12 @@
   box-sizing: border-box;
 }
 body {
-  font-family: "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: 'Roboto';
   background-color: rgba(0, 0, 0, 1);
 }
-html, body, #root, .App {
+html,
+body,
+#root,
+.App {
   height: 100vh;
 }

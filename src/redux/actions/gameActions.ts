@@ -1,7 +1,8 @@
-export const FETCH_GAMES = "FETCH_GAMES";
+import { GameState } from "../reducer/gameReducer";
 
+export const FETCH_GAMES = 'FETCH_GAMES';
 
-export const fetchGamesAction = (payload : any[]) => ({
-    type: FETCH_GAMES,
-    payload : payload
-  });
+export const fetchGamesAction = (payload: GameState) => ({
+  type: FETCH_GAMES,
+  payload: payload
+});
