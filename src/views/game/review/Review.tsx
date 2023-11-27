@@ -1,5 +1,5 @@
 import { Dispatch, FunctionComponent, SetStateAction } from 'react';
-import { FaThumbsDown, FaThumbsUp, FaUser } from 'react-icons/fa';
+import { FaReply, FaThumbsDown, FaThumbsUp, FaUser } from 'react-icons/fa';
 
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
@@ -7,8 +7,10 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 import ReadMore from '../../../components/ReadMore/ReadMore';
+import ReplyThread from '../../replies/ReplyThread';
 
 interface ReviewProps {
+  reviewId: string;
   title: string;
   description: string;
   userName: string;
@@ -16,11 +18,13 @@ interface ReviewProps {
   upvoteCount: number;
   downvoteCount: number;
   trimReviewWordCount?: number;
+  openFullReview?: boolean;
   setOpenFullReview?: Dispatch<SetStateAction<boolean>>;
   onClick?: () => void;
 }
 
 const Review: FunctionComponent<ReviewProps> = ({
+  reviewId,
   title,
   description,
   userName,
@@ -28,6 +32,7 @@ const Review: FunctionComponent<ReviewProps> = ({
   upvoteCount,
   downvoteCount,
   trimReviewWordCount,
+  openFullReview,
   setOpenFullReview,
   onClick
 }) => {
@@ -43,8 +48,9 @@ const Review: FunctionComponent<ReviewProps> = ({
       style={{
         borderRadius: '10px',
         backgroundColor: '#737672',
-        maxHeight: height,
-        minHeight: minHeight
+        maxHeight: openFullReview ? '100vh' : height,
+        minHeight: minHeight,
+        overflowY: 'auto'
       }}
       className="p-2 px-3 d-flex flex-column justify-content-between"
       onClick={() => {
@@ -83,7 +89,9 @@ const Review: FunctionComponent<ReviewProps> = ({
           <Typography color="white" textAlign={'justify'}>
             {trimReviewWordCount !== undefined ? (
               <ReadMore wordLimit={trimReviewWordCount}>{description}</ReadMore>
-            ): description}
+            ) : (
+              description
+            )}
           </Typography>
         </Grid>
       </div>
@@ -103,6 +111,7 @@ const Review: FunctionComponent<ReviewProps> = ({
           </div>
         </div>
       </div>
+      {openFullReview && <ReplyThread contentId={reviewId} />}
     </div>
   );
 };

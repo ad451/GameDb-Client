@@ -1,6 +1,5 @@
 export const durationUtil = (date: Date): string => {
   let createdAt = (Date.now() - Date.parse(date.toString())) / 1000;
-  console.log(createdAt);
   const pluralSuffix = `${createdAt >= 2 ? 's. ' : '. '}`;
   let duration = '';
   if (createdAt < 60) {

@@ -2,17 +2,14 @@ import { toast } from 'react-toastify';
 
 import axios from 'axios';
 
-import { IReview } from '../models/review';
-import { fetchReviewAction } from '../redux/actions/reviewActions';
-import { AppDispatch } from '../redux/store';
+import { IReply } from '../models/reply';
 
-export const fetchReviewsByGameId = async (
+export const fetchRepliesByContentId = async (
   contentId: string,
-  dispatch: AppDispatch
-): Promise<boolean> => {
+): Promise<Array<IReply> | null> => {
   try {
     const response = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}/api/v1/review?contentId=${contentId}`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/v1/reply?contentId=${contentId}`,
 
       {
         headers: {
@@ -22,38 +19,32 @@ export const fetchReviewsByGameId = async (
       }
     );
     if (response.status.toString().startsWith('2')) {
-      const reviews = response.data['reviews'];
-      dispatch(
-        fetchReviewAction({
-          reviews: reviews as IReview[],
-          loading: false,
-          error: null
-        })
-      );
+      const replies = response.data['replies'];
+      return replies as Array<IReply>;
     }
-    return true;
+    return null;
   } catch (e) {
     if (axios.isAxiosError(e)) {
-      toast('Cannot load reviews for the moment. Please try again later');
+      toast('Cannot load replies for the moment. Please try again later');
     } else {
       console.error(e);
     }
-    return false;
+    return null;
   }
 };
 
-export const postReview = async (
+export const postReply = async (
   token: string,
   contentId: string,
-  title: string,
-  body: string
-): Promise<IReview | null> => {
+  body: string,
+  parentId?: string
+): Promise<IReply | null> => {
   try {
+    const subThreadQuery = parentId !== undefined ? `?parentId=${parentId}` : ""
     const response = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/api/v1/review`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/v1/reply${subThreadQuery}`,
       {
         contentId,
-        title,
         body
       },
       {
@@ -66,17 +57,17 @@ export const postReview = async (
     );
     if (response.status.toString().startsWith('2')) {
       toast('Success!');
-      return response.data as IReview;
+      return response.data as IReply;
     }
     return null;
   } catch (e) {
     if (axios.isAxiosError(e)) {
-      console.log(e)
+      console.log(e);
       if (e.response?.status == 401) {
-        toast('You need to be signed in for posting reviews');
+        toast('You need to be signed in for posting replies');
         return null;
       }
-      toast('Could not post review for the moment. Please try again later');
+      toast('Could not post reply for the moment. Please try again later');
     } else {
       console.error(e);
     }

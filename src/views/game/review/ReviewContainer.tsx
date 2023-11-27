@@ -14,6 +14,7 @@ import { IReview } from '../../../models/review';
 import { fetchReviewAction } from '../../../redux/actions/reviewActions';
 import { AppState } from '../../../redux/store';
 import { durationUtil } from '../../../utils/durationUtil';
+import ReplyThread from '../../replies/ReplyThread';
 import Review from './Review';
 
 interface ReviewContainerProps {
@@ -96,6 +97,7 @@ const ReviewContainer: FunctionComponent<ReviewContainerProps> = ({
           <Masonry columns={noOfCols} spacing={2}>
             {reviewState.reviews.map((review) => (
               <Review
+                reviewId={review._id}
                 onClick={() => setSelectedReview(review)}
                 title={review.title}
                 description={review.body}
@@ -105,6 +107,7 @@ const ReviewContainer: FunctionComponent<ReviewContainerProps> = ({
                 trimReviewWordCount={100}
                 userName={review.createdBy.name}
                 setOpenFullReview={setOpenFullReview}
+                openFullReview={false}
               />
             ))}
           </Masonry>
@@ -119,14 +122,16 @@ const ReviewContainer: FunctionComponent<ReviewContainerProps> = ({
           style={{ width: '100vw' }}
           className="d-flex justify-content-center align-items-center"
         >
-          <div style={{width: "60vw"}}>
+          <div style={{ width: '60vw' }}>
             <Review
+              reviewId={selectedReview._id}
               title={selectedReview.title}
               description={selectedReview.body}
               upvoteCount={selectedReview.upvotes.length}
               downvoteCount={selectedReview.downvotes.length}
               createdAt={durationUtil(selectedReview.createdAt)}
               userName={selectedReview.createdBy.name}
+              openFullReview={true}
             />
           </div>
         </Modal>
