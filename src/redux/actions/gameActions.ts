@@ -6,3 +6,5 @@ export const fetchGamesAction = (payload: GameState) => ({
   type: FETCH_GAMES,
   payload: payload
 });
+
+
