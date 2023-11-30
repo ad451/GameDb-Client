@@ -19,9 +19,11 @@ import Login from './views/auth/Login';
 import Signup from './views/auth/Signup';
 import HomeScreen from './views/home/Homescreen';
 import GameScreen from './views/game/GameScreen';
+import ListScreen from './views/list/listScreen';
 
 function App() {
   const [sideToggle, setSideToggle] = useState<boolean>(false);
+ 
   return (
     <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
       <div className="App d-flex flex-column">
@@ -40,6 +42,10 @@ function App() {
               {/* <Route path="/profile" element={<ProfileScreen />} /> */}
               {/* <Route path="/favourites" element={<FavouritesScreen />} /> */}
               <Route path="/game/:gameId" element={<GameScreen />} />
+              <Route path="/list/:listId" element={<ListScreen />} />
+
+              {/* <Route path="/lists" element={<BasicModal />} /> */}
+
             </Routes>
           </div>
         </Router>

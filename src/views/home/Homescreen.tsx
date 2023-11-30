@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios';
-
+import { fetchGames } from '../../api/game';
 import { fetchGamesAction } from '../../redux/actions/gameActions';
 import { noGameState } from '../../redux/reducer/gameReducer';
 import { AppState } from '../../redux/store';
@@ -12,23 +12,11 @@ import './HomeScreen.scss';
 const HomeScreen: FunctionComponent = () => {
   const game_state = useSelector((state: AppState) => state.gamesState);
   const dispatch = useDispatch();
+
   useEffect(() => {
-    const fetchGames = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/v1/game');
-        const data = response.data;
-        dispatch(
-          fetchGamesAction({ games: data.games, error: null, loading: false })
-        );
-      } catch (error) {
-        console.error('Error fetching games:', error);
-        dispatch(fetchGamesAction(noGameState));
-      }
-    };
-    if (game_state.loading) {
-      fetchGames();
-    }
-  }, [dispatch, game_state.loading, game_state.games]);
+    fetchGames(dispatch)
+    
+  }, []);
 
   return (
     <div className="homescreen">

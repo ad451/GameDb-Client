@@ -1,8 +1,7 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -23,7 +22,7 @@ import { setUserAction } from '../../redux/actions/userActions';
 import { loggedOutUserState } from '../../redux/reducer/userReducer';
 import { AppState } from '../../redux/store';
 import './Navbar.scss';
-
+import { fetchLists } from '../../api/list';
 interface NavBarProps {
   userName: string;
   onClick: () => void;
@@ -33,8 +32,17 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
   const userState = useSelector((state: AppState) => state.userState);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const listState = useSelector((state: AppState) => state.listState);
+
+  useEffect(() => {
+    fetchLists(dispatch)
+  }, [])
 
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -49,6 +57,8 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openUserSettings, setOpenUserSettings] = useState<boolean>(false);
+  const [openLists, setOpenLists] = useState<boolean>(false);
+
   const handleUserSettings = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
     setOpenUserSettings(true);
@@ -58,10 +68,25 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
     setAnchorEl(null);
   };
 
-  const navItems = ['Home', 'Lists'];
+  const handleLists = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+    setOpenLists(true);
+  };
+  const handleCloseLists = () => {
+    setOpenLists(false);
+    setAnchorEl(null);
+  };
+  const handleListRedirect = (id : string) =>{
+    navigate(`/list/${id}`)
+  }
+
+  const navItems = ['Home'];
   const drawerWidth = 240;
   const container =
     window !== undefined ? () => window.document.body : undefined;
+
+
+
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
@@ -109,6 +134,7 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
 
   return (
     <>
+      {/* <BasicModal open={open} handleClose={handleClose} /> */}
       <AppBar component="nav" sx={{ backgroundColor: '#FF1818' }}>
         <Toolbar>
           <IconButton
@@ -143,15 +169,19 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
           </Typography>
 
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {navItems.map((item) => (
-              <Button
-                key={item}
-                sx={{ color: 'white', fontWeight: 'bold' }}
-                onClick={() => navigate(`/${item.toLowerCase()}`)}
-              >
-                {item}
-              </Button>
-            ))}
+            {navItems.map((item) =>
+              <>
+
+                <Button key={item}
+                  sx={{ color: 'white', fontWeight: 'bold' }}
+                  onClick={() => navigate('/')}
+                >
+                  {item}
+                </Button>
+
+
+              </>
+            )}
             {userState.isLoggedIn ? (
               <Button
                 key={'profile'}
@@ -167,6 +197,24 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
                 onClick={() => navigate(`/login`)}
               >
                 Login
+              </Button>
+            )}
+            {userState.isLoggedIn ? (
+              <Button
+                key={'lists'}
+                sx={{ color: 'white', fontWeight: 'bold' }}
+                onClick={handleLists}
+              >
+                Lists
+              </Button>
+            ) : (
+              <Button
+                key={'lists'}
+                sx={{ color: 'white', fontWeight: 'bold' }}
+                onClick={() => navigate(`/login`)}
+
+              >
+                Lists
               </Button>
             )}
           </Box>
@@ -203,6 +251,21 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
           <MenuItem onClick={handleCloseUserSettings}>Profile</MenuItem>
           <MenuItem onClick={handleCloseUserSettings}>My account</MenuItem>
           <MenuItem onClick={() => handleLogout()}>Logout</MenuItem>
+        </Menu>
+
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={openLists}
+          onClose={handleCloseLists}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button'
+          }}
+        >
+          { listState.lists.map((list)=>
+            <MenuItem key={list._id} onClick={() => handleListRedirect(list._id)}>{list.name}</MenuItem>
+          )
+          }
         </Menu>
       </nav>
     </>
