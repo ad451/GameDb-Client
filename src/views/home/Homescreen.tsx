@@ -22,6 +22,7 @@ const HomeScreen: FunctionComponent = () => {
     
   }, [pageNumber]);
 
+
   return (
     <div className="homescreen">
       {game_state.loading ? (
