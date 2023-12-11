@@ -7,9 +7,9 @@ import axios from "axios";
  * 
  * @param dispatch the redux util that will dispatch the `FETCH_GAMES` action
  */
-export const fetchGames = async (dispatch : AppDispatch) => {
+export const fetchGames = async (dispatch : AppDispatch ,  pageNumber : number) => {
     try {
-      const response = await axios.get('http://localhost:5000/api/v1/game');
+      const response = await axios.get(`http://localhost:5000/api/v1/game?pageNumber=${pageNumber}`);
       const data = response.data;
       dispatch(
         fetchGamesAction({ games: data.games, error: null, loading: false })
