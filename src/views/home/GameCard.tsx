@@ -12,29 +12,22 @@ import { Link } from 'react-router-dom';
 
 import { IParentPlatform } from '../../models/game';
 import './game.scss';
+import { Chip, Grid } from '@mui/material';
 
 interface GameCardProps {
   gameId: string;
   name: string;
-  release: string;
   image: string;
-  rating: number;
   metacritic: number;
-  playtime: number;
-  ratings: number;
   parent: Array<IParentPlatform>;
-  genres: any;
+  genres: Array<any>;
 }
 
 const GameCard: FunctionComponent<GameCardProps> = ({
   gameId,
   name,
-  release,
   image,
-  rating,
   metacritic,
-  playtime,
-  ratings,
   parent,
   genres
 }) => {
@@ -60,9 +53,9 @@ const GameCard: FunctionComponent<GameCardProps> = ({
   };
 
   return (
-    <div className="game" key={gameId}>
+    <div className="game" key={gameId} style={{padding: "2px"}}>
       <Link to={`/game/${gameId}`} title="See game details">
-        <img src={image} alt={name} />
+        <img src={image} alt={name} style={{ 'maxHeight': '200px' }} />
       </Link>
 
       <div className="game__info">
@@ -70,14 +63,7 @@ const GameCard: FunctionComponent<GameCardProps> = ({
           <p className="info__name">{name}</p>
         </Link>
 
-        <div className="info__release">
-          <p>Released: </p>
-          <span>{release}</span>
-        </div>
-        <div className="info__rating">
-          <p>Rating: </p>
-          <span>{rating}</span>
-        </div>
+
         <div className="info__meta">
           <p>Metacritic: </p>
           <span
@@ -85,26 +71,22 @@ const GameCard: FunctionComponent<GameCardProps> = ({
               metacritic >= 70
                 ? 'above70'
                 : metacritic >= 50
-                ? 'above50'
-                : 'under50'
+                  ? 'above50'
+                  : 'under50'
             }
           >
             {metacritic}
           </span>
         </div>
-        <div className="info__play">
-          <p>Playtime: </p>
-          <span>{playtime} Hours</span>
-        </div>
         <div className="info__genres">
           <p>Genres: </p>
-          <span>
-            {genres.map((genre: any) => (
+          <Grid container columnGap={1} rowGap={1}>
+            {genres.slice(0,2).map((genre: any) => (
               <>
-                <span>{genre.name},</span>
+                <Chip style={{backgroundColor: "grey"}} label={genre.name}></Chip>
               </>
             ))}
-          </span>
+          </Grid>
         </div>
         <div className="info__platforms">
           <p>Platforms: </p>

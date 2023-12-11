@@ -1,6 +1,6 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import BasicPagination from '../../components/Pagination/Pagination';
 import axios from 'axios';
 import { fetchGames } from '../../api/game';
 import { fetchGamesAction } from '../../redux/actions/gameActions';
@@ -8,19 +8,23 @@ import { noGameState } from '../../redux/reducer/gameReducer';
 import { AppState } from '../../redux/store';
 import GameCard from './GameCard';
 import './HomeScreen.scss';
-
+import PaginationRanges from '../../components/Pagination/Pagination';
 const HomeScreen: FunctionComponent = () => {
   const game_state = useSelector((state: AppState) => state.gamesState);
   const dispatch = useDispatch();
+  const [pageNumber,setpageNUmber] =  useState<number>(1);
 
+  const handlePaginationChange = (pageNumber: number) => {
+    setpageNUmber(pageNumber);
+  };
   useEffect(() => {
-    fetchGames(dispatch)
+    fetchGames(dispatch,pageNumber)
     
-  }, []);
+  }, [pageNumber]);
+
 
   return (
     <div className="homescreen">
-      <h1 className="homescreen__title">All Games</h1>
       {game_state.loading ? (
         <p>Loading...</p>
       ) : game_state.error ? (
@@ -32,18 +36,15 @@ const HomeScreen: FunctionComponent = () => {
               key={game._id}
               gameId={game._id}
               name={game.name}
-              release={game.released}
               image={game.background_image}
-              ratings={game.ratings}
-              rating={game.rating}
               parent={game.parent_platforms}
               genres={game.genres}
               metacritic={game.metacritic}
-              playtime={game.playtime}
             />
           ))}
         </div>
       )}
+      <BasicPagination handlepagination={handlePaginationChange}/>
     </div>
   );
 };
