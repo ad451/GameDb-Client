@@ -13,8 +13,12 @@ export interface IUserAction {
 }
 
 export const loggedOutUserState: UserState = {
-  user: { name: '', email: '', userName: '' },
-  isLoggedIn: false,
+  user: {
+    name: window.localStorage.getItem('name') ?? '',
+    email: '',
+    userName: ''
+  },
+  isLoggedIn: window.localStorage.getItem('name') ? true : false,
   error: null
 };
 

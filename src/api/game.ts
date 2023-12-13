@@ -14,7 +14,7 @@ export const fetchGames = async (dispatch : AppDispatch ,  pageNumber : number) 
 
       const data = response.data;
       dispatch(
-        fetchGamesAction({ games: data.games, error: null, loading: false })
+        fetchGamesAction({ games: data.games, n_pages: data.pages, error: null, loading: false })
       );
     } catch (error) {
       console.error('Error fetching games:', error);

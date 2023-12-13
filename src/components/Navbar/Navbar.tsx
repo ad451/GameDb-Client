@@ -29,9 +29,9 @@ interface NavBarProps {
 }
 
 const NavBar: FunctionComponent<NavBarProps> = () => {
-  const userState = useSelector((state: AppState) => state.userState);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userState = useSelector((state: AppState) => state.userState);
   const listState = useSelector((state: AppState) => state.listState);
 
   useEffect(() => {
@@ -115,7 +115,7 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
               sx={{ textAlign: 'center' }}
               onClick={() => handleLogout()}
             >
-              <ListItemText primary={userState.user.name.split(' ')[0]} />
+              <ListItemText primary={window.localStorage.getItem('name')?.split(' ')[0]} />
             </ListItemButton>
           </ListItem>
         ) : (
@@ -135,7 +135,7 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
   return (
     <>
       {/* <BasicModal open={open} handleClose={handleClose} /> */}
-      <AppBar component="nav" sx={{ backgroundColor: '#FF1818' }}>
+      <AppBar component="nav" sx={{ backgroundColor: '#730F11' }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -188,7 +188,7 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
                 sx={{ color: 'white', fontWeight: 'bold' }}
                 onClick={handleUserSettings}
               >
-                {userState.user.name.split(' ')[0]}
+                {window.localStorage.getItem('name')?.split(' ')[0]}
               </Button>
             ) : (
               <Button

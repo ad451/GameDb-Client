@@ -12,4 +12,7 @@ body,
 #root,
 .App {
   height: 100vh;
+  background-image: url('./assets/images/bg');
+  background-size: cover;
+  background-attachment: fixed;
 }
