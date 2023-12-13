@@ -1,5 +1,5 @@
 import { Dispatch, FunctionComponent, SetStateAction } from 'react';
-import { FaReply, FaThumbsDown, FaThumbsUp, FaUser } from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa';
 
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
@@ -7,6 +7,8 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 import ReadMore from '../../../components/ReadMore/ReadMore';
+import DownvoteButton from '../../../components/VoteButtons/Downvote';
+import UpvoteButton from '../../../components/VoteButtons/Upvote';
 import ReplyThread from '../../replies/ReplyThread';
 
 interface ReviewProps {
@@ -15,8 +17,8 @@ interface ReviewProps {
   description: string;
   userName: string;
   createdAt: string;
-  upvoteCount: number;
-  downvoteCount: number;
+  upvotes: Array<string>;
+  downvotes: Array<string>;
   trimReviewWordCount?: number;
   openFullReview?: boolean;
   setOpenFullReview?: Dispatch<SetStateAction<boolean>>;
@@ -29,8 +31,8 @@ const Review: FunctionComponent<ReviewProps> = ({
   description,
   userName,
   createdAt,
-  upvoteCount,
-  downvoteCount,
+  upvotes,
+  downvotes,
   trimReviewWordCount,
   openFullReview,
   setOpenFullReview,
@@ -53,12 +55,13 @@ const Review: FunctionComponent<ReviewProps> = ({
         overflowY: 'auto'
       }}
       className="p-2 px-3 d-flex flex-column justify-content-between"
-      onClick={() => {
-        if (onClick !== undefined) onClick();
-        if (setOpenFullReview !== undefined) setOpenFullReview(true);
-      }}
     >
-      <div>
+      <div
+        onClick={() => {
+          if (onClick !== undefined) onClick();
+          if (setOpenFullReview !== undefined) setOpenFullReview(true);
+        }}
+      >
         <Grid
           container
           className="mt-2 ps-3"
@@ -98,17 +101,9 @@ const Review: FunctionComponent<ReviewProps> = ({
       <div>
         <Divider sx={{ backgroundColor: 'white' }}></Divider>
 
-        <div className="mt-2 d-flex flex-row justify-content-between">
-          <div className="d-flex flex-row">
-            <FaThumbsUp className="mx-1" color="lightgrey" size={25} />
-            <Typography className="mx-1" color="lightgrey">
-              {upvoteCount}
-            </Typography>
-            <FaThumbsDown className="mx-1" color="lightgrey" size={25} />
-            <Typography className="mx-1" color="lightgrey">
-              {downvoteCount}
-            </Typography>
-          </div>
+        <div className="mt-1 d-flex flex-row justify-content-start">
+          <UpvoteButton upvotes={upvotes} downvotes={downvotes} contentId={reviewId}/>
+          <DownvoteButton upvotes={upvotes} downvotes={downvotes} contentId={reviewId}/>
         </div>
       </div>
       {openFullReview && <ReplyThread contentId={reviewId} />}

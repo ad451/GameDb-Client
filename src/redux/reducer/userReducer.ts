@@ -14,6 +14,7 @@ export interface IUserAction {
 
 export const loggedOutUserState: UserState = {
   user: {
+    userId: window.localStorage.getItem('userId') ?? '',
     name: window.localStorage.getItem('name') ?? '',
     email: '',
     userName: ''

@@ -14,6 +14,7 @@ import { AppDispatch } from '../redux/store';
  * @param dispatch the redux util that will dispatch the `SET_USER` action
  */
 const setUserState = (
+  userId: string,
   name: string,
   email: string,
   userName: string,
@@ -22,6 +23,7 @@ const setUserState = (
   dispatch(
     setUserAction({
       user: {
+        userId,
         name,
         email,
         userName
@@ -58,9 +60,16 @@ export const handleGoogleLogin = async (
     if (response.status.toString().startsWith('2')) {
       const data = response.data;
       window.localStorage.setItem('accessToken', data['token']);
+      window.localStorage.setItem('userId', data['_id']);
       window.localStorage.setItem('name', data['name']);
       window.localStorage.setItem('userName', data['userName']);
-      setUserState(data['name'], data['email'], data['userName'], dispatch);
+      setUserState(
+        data['_id'],
+        data['name'],
+        data['email'],
+        data['userName'],
+        dispatch
+      );
       toast('Success!');
     }
     return true;
@@ -104,9 +113,16 @@ export const handleEmailPasswordLogin = async (
     if (response.status.toString().startsWith('2')) {
       const data = response.data;
       window.localStorage.setItem('accessToken', data['token']);
+      window.localStorage.setItem('userId', data['_id']);
       window.localStorage.setItem('name', data['name']);
       window.localStorage.setItem('userName', data['userName']);
-      setUserState(data['name'], data['email'], data['userName'], dispatch);
+      setUserState(
+        data['_id'],
+        data['name'],
+        data['email'],
+        data['userName'],
+        dispatch
+      );
       toast('Success!');
     }
 
@@ -154,9 +170,16 @@ export const handleEmailPasswordSignup = async (
     if (response.status.toString().startsWith('2')) {
       const data = response.data;
       window.localStorage.setItem('accessToken', data['token']);
+      window.localStorage.setItem('userId', data['_id']);
       window.localStorage.setItem('name', data['name']);
       window.localStorage.setItem('userName', data['userName']);
-      setUserState(data['name'], data['email'], data['userName'], dispatch);
+      setUserState(
+        data['_id'],
+        data['name'],
+        data['email'],
+        data['userName'],
+        dispatch
+      );
       toast('Success!');
     }
     return true;

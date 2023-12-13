@@ -95,14 +95,14 @@ const ReviewContainer: FunctionComponent<ReviewContainerProps> = ({
           <Typography>Loading ...</Typography>
         ) : reviewState.reviews?.length > 0 ? (
           <Masonry columns={noOfCols} spacing={2}>
-            {reviewState.reviews.map((review) => (
+            {reviewState.reviews.sort((a,b) => (a.createdAt > b.createdAt) ? 1 : 0).map((review) => (
               <Review
                 reviewId={review._id}
                 onClick={() => setSelectedReview(review)}
                 title={review.title}
                 description={review.body}
-                upvoteCount={review.upvotes.length}
-                downvoteCount={review.downvotes.length}
+                upvotes={review.upvotes}
+                downvotes={review.downvotes}
                 createdAt={durationUtil(review.createdAt)}
                 trimReviewWordCount={100}
                 userName={review.createdBy.name}
@@ -127,8 +127,8 @@ const ReviewContainer: FunctionComponent<ReviewContainerProps> = ({
               reviewId={selectedReview._id}
               title={selectedReview.title}
               description={selectedReview.body}
-              upvoteCount={selectedReview.upvotes.length}
-              downvoteCount={selectedReview.downvotes.length}
+              upvotes={selectedReview.upvotes}
+              downvotes={selectedReview.downvotes}
               createdAt={durationUtil(selectedReview.createdAt)}
               userName={selectedReview.createdBy.name}
               openFullReview={true}

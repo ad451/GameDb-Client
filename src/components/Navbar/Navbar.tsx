@@ -1,7 +1,8 @@
-import { FunctionComponent, useState, useEffect } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -18,11 +19,12 @@ import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
+import { fetchLists } from '../../api/list';
 import { setUserAction } from '../../redux/actions/userActions';
 import { loggedOutUserState } from '../../redux/reducer/userReducer';
 import { AppState } from '../../redux/store';
 import './Navbar.scss';
-import { fetchLists } from '../../api/list';
+
 interface NavBarProps {
   userName: string;
   onClick: () => void;
@@ -35,8 +37,8 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
   const listState = useSelector((state: AppState) => state.listState);
 
   useEffect(() => {
-    fetchLists(dispatch)
-  }, [])
+    fetchLists(dispatch);
+  }, []);
 
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
 
@@ -51,6 +53,9 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
   const handleLogout = () => {
     dispatch(setUserAction(loggedOutUserState));
     window.localStorage.removeItem('accessToken');
+    window.localStorage.removeItem('name');
+    window.localStorage.removeItem('userId');
+    window.localStorage.removeItem('userName');
     toast('Logged out successfully!');
     handleCloseUserSettings();
   };
@@ -76,17 +81,14 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
     setOpenLists(false);
     setAnchorEl(null);
   };
-  const handleListRedirect = (id : string) =>{
-    navigate(`/list/${id}`)
-  }
+  const handleListRedirect = (id: string) => {
+    navigate(`/list/${id}`);
+  };
 
   const navItems = ['Home'];
   const drawerWidth = 240;
   const container =
     window !== undefined ? () => window.document.body : undefined;
-
-
-
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
@@ -109,13 +111,16 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
             </ListItemButton>
           </ListItem>
         ))}
-        {userState.isLoggedIn ? (
+        {userState.isLoggedIn &&
+        window.localStorage.getItem("accessToken") !== null ? (
           <ListItem key={'profile'} disablePadding>
             <ListItemButton
               sx={{ textAlign: 'center' }}
               onClick={() => handleLogout()}
             >
-              <ListItemText primary={window.localStorage.getItem('name')?.split(' ')[0]} />
+              <ListItemText
+                primary={window.localStorage.getItem('name')?.split(' ')[0]}
+              />
             </ListItemButton>
           </ListItem>
         ) : (
@@ -169,19 +174,17 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
           </Typography>
 
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {navItems.map((item) =>
+            {navItems.map((item) => (
               <>
-
-                <Button key={item}
+                <Button
+                  key={item}
                   sx={{ color: 'white', fontWeight: 'bold' }}
                   onClick={() => navigate('/')}
                 >
                   {item}
                 </Button>
-
-
               </>
-            )}
+            ))}
             {userState.isLoggedIn ? (
               <Button
                 key={'profile'}
@@ -212,7 +215,6 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
                 key={'lists'}
                 sx={{ color: 'white', fontWeight: 'bold' }}
                 onClick={() => navigate(`/login`)}
-
               >
                 Lists
               </Button>
@@ -262,10 +264,14 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
             'aria-labelledby': 'basic-button'
           }}
         >
-          { listState.lists.map((list)=>
-            <MenuItem key={list._id} onClick={() => handleListRedirect(list._id)}>{list.name}</MenuItem>
-          )
-          }
+          {listState.lists.map((list) => (
+            <MenuItem
+              key={list._id}
+              onClick={() => handleListRedirect(list._id)}
+            >
+              {list.name}
+            </MenuItem>
+          ))}
         </Menu>
       </nav>
     </>
