@@ -89,7 +89,7 @@ const Downvote: FunctionComponent<DownvoteProps> = ({
           }
         }}
       >
-        <FaThumbsDown className="mx-1" color="lightgrey" size={25} />
+        <FaThumbsDown className="mx-1" color={downvotes.includes(userState.user.userId) ? "blue":"lightgrey"} size={25} />
       </IconButton>
       <Typography className="mx-1" color="lightgrey">
         {downvotes.length}

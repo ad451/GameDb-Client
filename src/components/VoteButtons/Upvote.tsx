@@ -93,7 +93,7 @@ const UpvoteButton: FunctionComponent<UpvoteButtonProps> = ({
           }
         }}
       >
-        <FaThumbsUp className="mx-1" color="lightgrey" size={25} />
+        <FaThumbsUp className="mx-1" color={upvotes.includes(userState.user.userId) ? "red": "lightgrey"} size={25} />
       </IconButton>
       <Typography className="mx-1" color="lightgrey">
         {upvotes.length}
