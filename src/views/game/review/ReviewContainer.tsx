@@ -95,7 +95,7 @@ const ReviewContainer: FunctionComponent<ReviewContainerProps> = ({
           <Typography>Loading ...</Typography>
         ) : reviewState.reviews?.length > 0 ? (
           <Masonry columns={noOfCols} spacing={2}>
-            {reviewState.reviews.sort((a,b) => (a.createdAt > b.createdAt) ? 1 : 0).map((review) => (
+            {reviewState.reviews.sort((a,b) => (a.createdAt < b.createdAt) ? 1: (a.createdAt > b.createdAt) ? -1 : 0).map((review) => (
               <Review
                 reviewId={review._id}
                 onClick={() => setSelectedReview(review)}

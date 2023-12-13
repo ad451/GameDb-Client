@@ -185,7 +185,7 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
                 </Button>
               </>
             ))}
-            {userState.isLoggedIn ? (
+            {userState.isLoggedIn  && window.localStorage.getItem("accessToken") !== null? (
               <Button
                 key={'profile'}
                 sx={{ color: 'white', fontWeight: 'bold' }}
