@@ -19,7 +19,7 @@ export const loggedOutUserState: UserState = {
     email: '',
     userName: ''
   },
-  isLoggedIn: window.localStorage.getItem('name') ? true : false,
+  isLoggedIn: window.localStorage.getItem('accessToken') !== null ? true : false,
   error: null
 };
 

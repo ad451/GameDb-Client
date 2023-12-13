@@ -24,6 +24,8 @@ import { setUserAction } from '../../redux/actions/userActions';
 import { loggedOutUserState } from '../../redux/reducer/userReducer';
 import { AppState } from '../../redux/store';
 import './Navbar.scss';
+import { fetchListsAction } from '../../redux/actions/listActions';
+import { noListState } from '../../redux/reducer/listReducer';
 
 interface NavBarProps {
   userName: string;
@@ -37,8 +39,13 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
   const listState = useSelector((state: AppState) => state.listState);
 
   useEffect(() => {
-    fetchLists(dispatch);
-  }, []);
+    console.log("User state update")
+    if(userState.isLoggedIn) {
+      fetchLists(dispatch);
+    } else {
+      dispatch(fetchListsAction(noListState));
+    }
+  }, [userState]);
 
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
 
@@ -202,19 +209,11 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
                 Login
               </Button>
             )}
-            {userState.isLoggedIn ? (
+            {userState.isLoggedIn && (
               <Button
                 key={'lists'}
                 sx={{ color: 'white', fontWeight: 'bold' }}
                 onClick={handleLists}
-              >
-                Lists
-              </Button>
-            ) : (
-              <Button
-                key={'lists'}
-                sx={{ color: 'white', fontWeight: 'bold' }}
-                onClick={() => navigate(`/login`)}
               >
                 Lists
               </Button>

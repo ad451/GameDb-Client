@@ -8,7 +8,7 @@ export interface ListState {
 }
 
 export const noListState: ListState = {
-  lists: JSON.parse(window.localStorage.getItem('lists') || "[]") || [],
+  lists:  [],
   loading: true,
   error: null
 };
@@ -22,7 +22,6 @@ export interface ListAction {
 export const listReducer = (state: ListState = noListState, action: ListAction) => {
   switch (action.type) {
     case FETCH_LISTS:
-      window.localStorage.setItem('list', JSON.stringify(action.payload.lists))
       return {
         ...state,
         lists: action.payload.lists,

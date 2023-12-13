@@ -9,7 +9,8 @@ import { Box, Card, CardContent, CardMedia, Chip, IconButton, Typography } from 
 const ListScreen = () => {
   const dispatch = useDispatch();
   const { listId } = useParams();
-  const [games, setGame] = useState<Array<IGame> | null>(null);
+  const [games, setGame] = useState<Array<IGame>>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   // Assuming you have a Redux state to store game data
   const token = window.localStorage.getItem('accessToken');
   // Assuming list.items is an array of game IDs
@@ -21,26 +22,30 @@ const ListScreen = () => {
   useEffect(() => {
     // Define an action creator like fetchListGames(dispatch, gameIds)
     const fetchListGamesAction = async () => {
+      console.log(gameIds)
       if (!listId || !token) return;
       try {
-        const games = await fetchListGames(token, dispatch, listId, gameIds);
-        setGame(games);
-        console.log(games);
+        setLoading(true)
+        if(gameIds.length>0) {
+          const games = await fetchListGames(token, dispatch, listId, gameIds);
+          setGame(games);
+          console.log(games)
+        } else setGame([])
+        setLoading(false)
       } catch (error) {
         console.error('Error fetching games:', error);
       }
     };
 
-    // Call the action creator in the useEffect
     fetchListGamesAction();
-  }, []);
-  return (
+  }, [listId, gameIds]);
+  return loading ? <>Loading...</> : (
     <div className="homescreen">
       <div className="homescreen__content">
         <h1 className="homescreen__title">Game List</h1>
         <div className="homescreen__games">
           <div className='d-flex flex-column'>
-            {games !== null && games.map((game: IGame) =>
+            {games.length > 0 ? games.map((game: IGame) =>
               <Card sx={{ display: 'flex' }} className="mt-2">
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                   <CardContent sx={{ flex: '1 0 auto' }}>
@@ -59,7 +64,7 @@ const ListScreen = () => {
                   alt="Live from space album cover"
                 />
               </Card>
-            )}
+            ): <Typography>Empty List</Typography>}
           </div>
 
         </div>
