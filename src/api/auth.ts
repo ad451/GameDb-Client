@@ -58,6 +58,8 @@ export const handleGoogleLogin = async (
     if (response.status.toString().startsWith('2')) {
       const data = response.data;
       window.localStorage.setItem('accessToken', data['token']);
+      window.localStorage.setItem('name', data['name']);
+      window.localStorage.setItem('userName', data['userName']);
       setUserState(data['name'], data['email'], data['userName'], dispatch);
       toast('Success!');
     }
@@ -102,6 +104,8 @@ export const handleEmailPasswordLogin = async (
     if (response.status.toString().startsWith('2')) {
       const data = response.data;
       window.localStorage.setItem('accessToken', data['token']);
+      window.localStorage.setItem('name', data['name']);
+      window.localStorage.setItem('userName', data['userName']);
       setUserState(data['name'], data['email'], data['userName'], dispatch);
       toast('Success!');
     }
@@ -150,6 +154,8 @@ export const handleEmailPasswordSignup = async (
     if (response.status.toString().startsWith('2')) {
       const data = response.data;
       window.localStorage.setItem('accessToken', data['token']);
+      window.localStorage.setItem('name', data['name']);
+      window.localStorage.setItem('userName', data['userName']);
       setUserState(data['name'], data['email'], data['userName'], dispatch);
       toast('Success!');
     }
