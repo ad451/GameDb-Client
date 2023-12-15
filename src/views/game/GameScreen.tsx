@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { Container, Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -12,21 +12,28 @@ import { fetchReviewAction } from '../../redux/actions/reviewActions';
 import { AppState } from '../../redux/store';
 import './GameScreen.scss';
 import ReviewContainer from './review/ReviewContainer';
-
+import { fetchGamesById } from '../../api/game';
+import { IGame } from '../../models/game';
 interface GameScreenProps {}
 
 const GameScreen: FunctionComponent<GameScreenProps> = () => {
   let { gameId } = useParams();
-  const game = useSelector(
+  let game : IGame = useSelector(
     (state: AppState) =>
-      state.gamesState.games.filter((el) => el._id == gameId)[0]
-  );
+    state.gamesState.games.filter((el) => el._id == gameId)[0]
+    );
+  const [currentGame,setCurrentGame] = useState<IGame | undefined>(game)
   const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
-      if (game !== undefined) {
-        const success = await fetchReviewsByGameId(game._id, dispatch);
+      if (currentGame !== undefined) {
+        const success = await fetchReviewsByGameId(currentGame._id, dispatch);
+      }
+      else{
+        const currentGameres = await fetchGamesById(gameId);
+        setCurrentGame(currentGameres)
+         
       }
       return () =>
         dispatch(
@@ -34,8 +41,7 @@ const GameScreen: FunctionComponent<GameScreenProps> = () => {
         );
     })();
   }, []);
-
-  if (game === undefined || gameId === undefined) return <NotFound />;
+  if (currentGame === undefined || gameId === undefined ) return (<>loading...</>);
   return (
     <div
       style={{
@@ -52,13 +58,13 @@ const GameScreen: FunctionComponent<GameScreenProps> = () => {
       >
         <Grid container>
           <Grid item sm={6}>
-            <Image fluid width={500} src={game.background_image}></Image>
+            <Image fluid width={500} src={currentGame.background_image}></Image>
           </Grid>
           <Grid item sm={6}>
             <Typography variant="h3" color={'white'}>
-              {game.name}
+              {currentGame.name}
             </Typography>
-            {game.genres.map((el) => (
+            {currentGame.genres.map((el) => (
               <Chip
                 sx={{ color: 'white' }}
                 variant="outlined"
@@ -66,12 +72,12 @@ const GameScreen: FunctionComponent<GameScreenProps> = () => {
               />
             ))}
             <Typography color={'white'}>
-              Time to beat: {game.playtime} hrs
+              Time to beat: {currentGame.playtime} hrs
             </Typography>
             <div>
               <Typography color={'white'}>Rating:</Typography>
               <Rating
-                value={game.rating}
+                value={currentGame.rating}
                 precision={0.01}
                 readOnly
                 emptyIcon={
@@ -81,12 +87,12 @@ const GameScreen: FunctionComponent<GameScreenProps> = () => {
               <Typography color={'white'}>Rating:</Typography>
             </div>
             <Typography color={'white'}>
-              Release date: {game.released}
+              Release date: {currentGame.released}
             </Typography>
           </Grid>
         </Grid>
       </Container>
-      <ReviewContainer contentId={game._id}/>
+      <ReviewContainer contentId={currentGame._id}/>
     </div>
   );
 };

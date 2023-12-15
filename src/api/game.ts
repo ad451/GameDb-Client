@@ -21,3 +21,15 @@ export const fetchGames = async (dispatch : AppDispatch ,  pageNumber : number) 
       dispatch(fetchGamesAction(noGameState));
     }
 }
+
+export const fetchGamesById = async ( gameId : string | undefined) => {
+  try {
+    const response = await axios.get(`http://localhost:5000/api/v1/game/${gameId}`);
+
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error('Error fetching games:', error);
+    
+  }
+}
