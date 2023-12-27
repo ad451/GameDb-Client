@@ -17,9 +17,8 @@ export const loggedOutUserState: UserState = {
     userId: window.localStorage.getItem('userId') ?? '',
     name: window.localStorage.getItem('name') ?? '',
     email: '',
-    userName: ''
   },
-  isLoggedIn: window.localStorage.getItem('accessToken') !== null ? true : false,
+  isLoggedIn: false,
   error: null
 };
 

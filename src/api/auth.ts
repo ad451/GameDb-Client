@@ -17,7 +17,6 @@ const setUserState = (
   userId: string,
   name: string,
   email: string,
-  userName: string,
   dispatch: AppDispatch
 ) => {
   dispatch(
@@ -26,7 +25,6 @@ const setUserState = (
         userId,
         name,
         email,
-        userName
       },
       isLoggedIn: true,
       error: null
@@ -62,12 +60,10 @@ export const handleGoogleLogin = async (
       window.localStorage.setItem('accessToken', data['token']);
       window.localStorage.setItem('userId', data['_id']);
       window.localStorage.setItem('name', data['name']);
-      window.localStorage.setItem('userName', data['userName']);
       setUserState(
         data['_id'],
         data['name'],
         data['email'],
-        data['userName'],
         dispatch
       );
       toast('Success!');
@@ -115,12 +111,10 @@ export const handleEmailPasswordLogin = async (
       window.localStorage.setItem('accessToken', data['token']);
       window.localStorage.setItem('userId', data['_id']);
       window.localStorage.setItem('name', data['name']);
-      window.localStorage.setItem('userName', data['userName']);
       setUserState(
         data['_id'],
         data['name'],
         data['email'],
-        data['userName'],
         dispatch
       );
       toast('Success!');
@@ -172,12 +166,10 @@ export const handleEmailPasswordSignup = async (
       window.localStorage.setItem('accessToken', data['token']);
       window.localStorage.setItem('userId', data['_id']);
       window.localStorage.setItem('name', data['name']);
-      window.localStorage.setItem('userName', data['userName']);
       setUserState(
         data['_id'],
         data['name'],
         data['email'],
-        data['userName'],
         dispatch
       );
       toast('Success!');

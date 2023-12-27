@@ -20,6 +20,7 @@ import Signup from './views/auth/Signup';
 import HomeScreen from './views/home/Homescreen';
 import GameScreen from './views/game/GameScreen';
 import ListScreen from './views/list/listScreen';
+import NotFound from './components/NotFound/NotFound';
 
 function App() {
   const [sideToggle, setSideToggle] = useState<boolean>(false);
@@ -43,9 +44,8 @@ function App() {
               {/* <Route path="/favourites" element={<FavouritesScreen />} /> */}
               <Route path="/game/:gameId" element={<GameScreen />} />
               <Route path="/list/:listId" element={<ListScreen />} />
-
+              <Route path = '/*' element={<NotFound/>} />
               {/* <Route path="/lists" element={<BasicModal />} /> */}
-
             </Routes>
           </div>
         </Router>
