@@ -26,7 +26,8 @@ import { AppState } from '../../redux/store';
 import './Navbar.scss';
 import { fetchListsAction } from '../../redux/actions/listActions';
 import { noListState } from '../../redux/reducer/listReducer';
-
+import SearchComponent from './Search';
+import { Container } from '@mui/material';
 interface NavBarProps {
   userName: string;
   onClick: () => void;
@@ -37,7 +38,7 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
   const dispatch = useDispatch();
   const userState = useSelector((state: AppState) => state.userState);
   const listState = useSelector((state: AppState) => state.listState);
-
+  const game_state = useSelector((state: AppState) => state.gamesState.games);
   useEffect(() => {
     console.log("User state update")
     if(userState.isLoggedIn) {
@@ -147,6 +148,7 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
   return (
     <>
       {/* <BasicModal open={open} handleClose={handleClose} /> */}
+
       <AppBar component="nav" sx={{ backgroundColor: '#730F11' }}>
         <Toolbar>
           <IconButton
@@ -159,6 +161,7 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
             <MenuIcon />
           </IconButton>
           {/* Apply retro animation to the Typography component */}
+
           <Typography
             className="content"
             variant="h5"
@@ -179,8 +182,12 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
             <h2>GameDb</h2>
             <h2>GameDb</h2>
           </Typography>
-
+          <Container className='d-flex' sx={{ justifyContent: 'flex-end', alignItems: 'center' }}>
+          <div style={{marginRight:'20px'}}>
+          <SearchComponent gameItems={game_state}/>
+          </div>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+
             {navItems.map((item) => (
               <>
                 <Button
@@ -219,6 +226,8 @@ const NavBar: FunctionComponent<NavBarProps> = () => {
               </Button>
             )}
           </Box>
+          </Container>
+          
         </Toolbar>
       </AppBar>
       <nav>

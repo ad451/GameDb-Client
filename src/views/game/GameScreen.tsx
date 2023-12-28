@@ -14,10 +14,12 @@ import './GameScreen.scss';
 import ReviewContainer from './review/ReviewContainer';
 import { fetchGamesById } from '../../api/game';
 import { IGame } from '../../models/game';
+import LoadingSpinner from '../../components/loading/loading';
 interface GameScreenProps {}
 
 const GameScreen: FunctionComponent<GameScreenProps> = () => {
   let { gameId } = useParams();
+  const [loading,setloading] = useState<boolean>(false);
   let game : IGame = useSelector(
     (state: AppState) =>
     state.gamesState.games.filter((el) => el._id == gameId)[0]
@@ -27,22 +29,26 @@ const GameScreen: FunctionComponent<GameScreenProps> = () => {
 
   useEffect(() => {
     (async () => {
-      if (currentGame !== undefined) {
+      console.log(gameId,currentGame)
+
+      if (currentGame !== undefined && gameId==currentGame._id) {
         const success = await fetchReviewsByGameId(currentGame._id, dispatch);
       }
       else{
+        setloading(true);
         const currentGameres = await fetchGamesById(gameId);
+        console.log(currentGameres);
         setCurrentGame(currentGameres)
-         
+        setloading(false);
       }
       return () =>
         dispatch(
           fetchReviewAction({ reviews: [], loading: true, error: null })
         );
     })();
-  }, []);
-  if (currentGame === undefined || gameId === undefined ) return (<>loading...</>);
-  return (
+  }, [gameId]);
+  if (currentGame === undefined || gameId === undefined ) return (<LoadingSpinner/>);
+  return (loading ? (<LoadingSpinner/>):(
     <div
       style={{
       //   backgroundImage: `url("${game.background_image}")`,
@@ -94,6 +100,7 @@ const GameScreen: FunctionComponent<GameScreenProps> = () => {
       </Container>
       <ReviewContainer contentId={currentGame._id}/>
     </div>
+  )
   );
 };
 

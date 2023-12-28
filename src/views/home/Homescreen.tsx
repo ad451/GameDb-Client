@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios';
-
+import LoadingSpinner from '../../components/loading/loading';
 import { fetchGames } from '../../api/game';
 import BasicPagination from '../../components/Pagination/Pagination';
 import PaginationRanges from '../../components/Pagination/Pagination';
@@ -27,7 +27,7 @@ const HomeScreen: FunctionComponent = () => {
   return (
     <div className="homescreen">
       {game_state.loading ? (
-        <p>Loading...</p>
+        <LoadingSpinner/>
       ) : game_state.error ? (
         <p>Error: {game_state.error.message}</p>
       ) : (
